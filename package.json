@@ -1,0 +1,17 @@
+{
+    "name": "ts-infinite-scroll",
+    "version": "1.0.0",
+    "license": "MIT",
+    "dependencies": {
+        "typescript": "latest"
+    },
+    "default": "index.html",
+    "scripts": {
+        "start": "parcel index.html --open",
+        "build": "parcel build index.html"
+    },
+    "keywords": [],
+    "devDependencies": {
+        "parcel": "^2.5.0"
+    }
+}

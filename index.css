@@ -1,0 +1,21 @@
+#root {
+    max-width: 800px;
+    font-family: 'Roboto', sans-serif;
+    display: block;
+    margin: 0 auto;
+}
+
+.item {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 20px;
+}
+
+.intersection-observer {
+    width: 100%;
+    height: 50px;
+    background-color: #777;
+    border: 1px solid #000;
+    margin: 0 auto;
+}
