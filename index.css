@@ -7,9 +7,35 @@
 
 .item {
     padding: 10px;
-    border: 1px solid #ccc;
     border-radius: 5px;
-    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ccc;
+    height: 500px;
+}
+
+.item__title {
+    font-size: 30px;
+    line-height: 1.5;
+}
+
+.item__description {
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: 0.3px;
+}
+
+.item__author {
+    font-size: 14px;
+    letter-spacing: 0.4;
+    font-weight: 300;
+    text-decoration: underline;
+}
+
+.item__img {
+    width: 150px;
+    height: 150px;
 }
 
 .intersection-observer {
@@ -18,4 +44,21 @@
     background-color: #777;
     border: 1px solid #000;
     margin: 0 auto;
+}
+
+.virtual-top-observer {
+    background-color: aquamarine;
+}
+
+.virtual-bottom-observer {
+    background-color: antiquewhite;
+}
+
+.absolute-center {
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    max-width: 800px;
 }

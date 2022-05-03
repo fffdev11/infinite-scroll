@@ -1,3 +1,5 @@
+import { demodata } from '../data/data.utils';
+
 interface IDB<T> {
     load: (start: number, limit: number) => Promise<CursorInfo<T>>;
 }
@@ -9,10 +11,8 @@ export type CursorInfo<T> = {
     chunk: T[];
 };
 
-export function db<T>(size: number = 100, pageSize: number = 10, getArticle: (index: number) => T): IDB<T> {
-    const items = Array(size)
-        .fill(null)
-        .map((_, index) => getArticle(index));
+export function db<T>(size: number = 100, pageSize: number = 10): IDB<T> {
+    const items: any[] = demodata;
 
     return {
         load: (start: number, limit: number = pageSize): Promise<CursorInfo<T>> => {
