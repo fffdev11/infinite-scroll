@@ -1,5 +1,5 @@
 import { Component } from '../component';
-import { intersectionObserver } from '../data/observer.utils';
+import { intersectionObserver } from '../utils/observer.utils';
 
 type Props<T> = {
     itemMargin: number;

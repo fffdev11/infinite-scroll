@@ -1,5 +1,5 @@
-import { ArticleItem, getArticles } from './data/data.utils';
-import { db } from './data/db.utils';
+import { ArticleItem, getArticles } from './data/data';
+import { db } from './utils/db.utils';
 import { VirtualListComponent } from './virtual-list/virtual-list';
 
 const templateFn = (item: ArticleItem) => {
