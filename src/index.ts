@@ -3,13 +3,14 @@ import { db } from './utils/db.utils';
 import { VirtualListComponent } from './virtual-list/virtual-list';
 
 const templateFn = (item: ArticleItem) => {
-    return `<section class="feed__item">
-                    <img class="feed__item__img" alt="Avatar for logo" src="${item.url}"/>
-                    <div class="feed__item__description">
-                        <h2 class="h2-header">${item.name}</h2>
-                        <p class="p-text">${item.description}</p>
-                    </div>
-                </section>`.trim();
+    return `
+    <section class="feed__item">
+        <img class="feed__item__img" alt="Avatar for logo" src="${item.url}"/>
+        <div class="feed__item__description">
+            <h2 class="h2-header">${item.name}</h2>
+            <p class="p-text">${item.description}</p>
+        </div>
+    </section>`.trim();
 };
 
 const updateItemFn = (element: HTMLElement, { url, description, name }: ArticleItem) => {
@@ -20,7 +21,7 @@ const updateItemFn = (element: HTMLElement, { url, description, name }: ArticleI
     return element;
 };
 
-const DB_SIZE = 1000;
+export const DB_SIZE = 1000;
 const root: HTMLDivElement = document.getElementById('root') as HTMLDivElement;
 const DB = db(DB_SIZE, DB_SIZE, getArticles);
 

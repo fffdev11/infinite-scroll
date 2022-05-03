@@ -13,15 +13,12 @@ export function db<T>(size: number = 100, pageSize: number = 10, getArticles: (i
     const items = Array(size)
         .fill(null)
         .map((_, index) => getArticles(index));
+
     return {
         load: (start: number, limit: number = pageSize): Promise<CursorInfo<T>> => {
             const chunk = items.slice(start, start + limit);
-            const cursorInfo = {
-                chunk,
-                nextCursor: start + limit,
-                prevCursor: start,
-                size: chunk.length,
-            };
+            const cursorInfo = { chunk, nextCursor: start + limit, prevCursor: start, size: chunk.length };
+
             return new Promise((resolve) => resolve(cursorInfo));
         },
     };

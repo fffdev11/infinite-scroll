@@ -18,11 +18,13 @@ export abstract class Component<P extends {}, S extends object = {}> {
         if (this.exist()) {
             throw Error('Component already exists');
         }
+
         this.root.insertAdjacentElement('afterbegin', this.element);
         this.effect();
     }
+
     protected exist(): boolean {
-        return this.element.offsetParent !== null; // Just utility check if component is rendered
+        return this.element.offsetParent !== null; // Just checker if component is rendered
     }
 
     protected getComponentTag(): string {
