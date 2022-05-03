@@ -1,57 +1,43 @@
-#root {
-    max-width: 800px;
-    font-family: 'Roboto', sans-serif;
-    display: block;
-    margin: 0 auto;
+body {
+    font-family: 'Roboto';
 }
-
-.item {
-    padding: 10px;
-    border-radius: 5px;
+.feed__item {
+    max-width: 600px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    border: 1px solid #ccc;
-    height: 500px;
+    box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
 }
-
-.item__title {
-    font-size: 30px;
-    line-height: 1.5;
+.feed__item__description {
+    margin: 1rem 1rem;
 }
-
-.item__description {
-    font-size: 16px;
-    line-height: 1.5;
-    letter-spacing: 0.3px;
-}
-
-.item__author {
-    font-size: 14px;
-    letter-spacing: 0.4;
-    font-weight: 300;
-    text-decoration: underline;
-}
-
-.item__img {
+.feed__item__img {
+    padding: 1rem;
     width: 150px;
     height: 150px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.1);
 }
 
 .intersection-observer {
-    width: 100%;
-    height: 50px;
-    background-color: #777;
-    border: 1px solid #000;
+    width: 70%;
+    height: 48px;
+    border: 1px solid blue;
     margin: 0 auto;
+    background-color: rgba(0, 0, 255, 0.25);
+    box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.1);
 }
 
-.virtual-top-observer {
-    background-color: aquamarine;
+#virtual-list {
+    position: relative;
 }
-
 .virtual-bottom-observer {
-    background-color: antiquewhite;
+    background-color: rgba(0, 0, 255, 0.25);
+}
+.virtual-top-observer {
+    background-color: rgba(255, 7, 63, 0.25);
 }
 
 .absolute-center {
@@ -60,5 +46,4 @@
     left: 0;
     right: 0;
     top: 0;
-    max-width: 800px;
 }

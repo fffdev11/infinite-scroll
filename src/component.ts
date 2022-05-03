@@ -1,7 +1,7 @@
 export abstract class Component<P extends {}, S extends object = {}> {
+    protected state: S = null;
     protected element: HTMLElement = null;
     protected props: P = null;
-    protected state: S = null;
 
     constructor(protected root: HTMLElement, props: P) {
         this.element = document.createElement(this.getComponentTag());
@@ -10,18 +10,19 @@ export abstract class Component<P extends {}, S extends object = {}> {
         this.init();
     }
 
+    init(): void {}
+
     protected update(...args: any): void {}
 
     render(): void {
-        if (this.exists()) {
-            throw Error('component already exists');
+        if (this.exist()) {
+            throw Error('Component already exists');
         }
         this.root.insertAdjacentElement('afterbegin', this.element);
         this.effect();
     }
-
-    protected exists(): boolean {
-        return this.element.offsetParent !== null;
+    protected exist(): boolean {
+        return this.element.offsetParent !== null; // Just utility check if component is rendered
     }
 
     protected getComponentTag(): string {
@@ -31,6 +32,4 @@ export abstract class Component<P extends {}, S extends object = {}> {
     abstract getComponentId(): string;
 
     effect(): void {}
-
-    init(): void {}
 }

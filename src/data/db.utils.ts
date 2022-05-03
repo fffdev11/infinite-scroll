@@ -1,9 +1,3 @@
-import { demodata } from '../data/data.utils';
-
-interface IDB<T> {
-    load: (start: number, limit: number) => Promise<CursorInfo<T>>;
-}
-
 export type CursorInfo<T> = {
     size: number;
     nextCursor: number;
@@ -11,13 +5,23 @@ export type CursorInfo<T> = {
     chunk: T[];
 };
 
-export function db<T>(size: number = 100, pageSize: number = 10): IDB<T> {
-    const items: any[] = demodata;
+interface DB<T> {
+    load: (start: number, limit: number) => Promise<CursorInfo<T>>;
+}
 
+export function db<T>(size: number = 100, pageSize: number = 10, getArticles: (index: number) => T): DB<T> {
+    const items = Array(size)
+        .fill(null)
+        .map((_, index) => getArticles(index));
     return {
         load: (start: number, limit: number = pageSize): Promise<CursorInfo<T>> => {
             const chunk = items.slice(start, start + limit);
-            const cursorInfo = { chunk, nextCursor: start + limit, prevCursor: start - limit, size };
+            const cursorInfo = {
+                chunk,
+                nextCursor: start + limit,
+                prevCursor: start,
+                size: chunk.length,
+            };
             return new Promise((resolve) => resolve(cursorInfo));
         },
     };

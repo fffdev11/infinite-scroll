@@ -1,6 +1,5 @@
 import { Component } from '../component';
 import { intersectionObserver } from '../data/observer.utils';
-import { demodata } from '../data/data.utils';
 
 type Props<T> = {
     itemMargin: number;
@@ -23,7 +22,7 @@ const enum ScrollDirection {
 export class VirtualListComponent<T> extends Component<Props<T>, State> {
     TOP_OBSERVER_ELEMENT: HTMLElement;
     BOTTOM_OBSERVER_ELEMENT: HTMLElement;
-    ELEMENTS_LIMIT = demodata.length;
+    ELEMENTS_LIMIT = this.props.pageSize * 2;
     ELEMENTS_POOL: HTMLElement[] = [];
     state = {
         start: 0,
@@ -39,7 +38,7 @@ export class VirtualListComponent<T> extends Component<Props<T>, State> {
                 }
             },
             undefined,
-            { className: 'virtual-top-observer' }
+            { className: 'virtual-top-observer absolute-center' }
         );
         const [bottomObserver] = intersectionObserver(
             this.root,
@@ -49,7 +48,7 @@ export class VirtualListComponent<T> extends Component<Props<T>, State> {
                 }
             },
             undefined,
-            { className: 'virtual-bottom-observer' }
+            { className: 'virtual-bottom-observer absolute-center' }
         );
         this.TOP_OBSERVER_ELEMENT = topObserver;
         this.BOTTOM_OBSERVER_ELEMENT = bottomObserver;
@@ -82,7 +81,7 @@ export class VirtualListComponent<T> extends Component<Props<T>, State> {
             for (let i = 0; i < pageSize; i++) {
                 const element = this.ELEMENTS_POOL[i];
                 // Update ordering attribute
-                element.dataset.virtualListOrder = `${this.state.start + pageSize + i}`;
+                element.dataset.virtuaListOrder = `${this.state.start + pageSize + i}`;
                 // Update the item content
                 this.props.updateItemFn(element, chunk[i]);
                 // Update the item position
@@ -100,7 +99,7 @@ export class VirtualListComponent<T> extends Component<Props<T>, State> {
             for (let i = this.ELEMENTS_LIMIT - 1; i >= pageSize; i--) {
                 const element = this.ELEMENTS_POOL[i];
                 // Update ordering attribute
-                element.dataset.virtualListOrder = `${this.state.start + (i - pageSize)}`;
+                element.dataset.virtuaListOrder = `${this.state.start + (i - pageSize)}`;
                 // Update the item content
                 this.props.updateItemFn(element, chunk[i - pageSize]);
                 // Update the item position
@@ -112,9 +111,9 @@ export class VirtualListComponent<T> extends Component<Props<T>, State> {
                 firstCurrentElement = element;
             }
         }
-        // Sort pool according to elements order
+        // Sort pool accroding to elements order
         this.ELEMENTS_POOL = this.ELEMENTS_POOL.sort((a, b) => {
-            return +a.dataset.virtualListOrder - +b.dataset.virtualListOrder;
+            return +a.dataset.virtuaListOrder - +b.dataset.virtuaListOrder;
         });
     }
 
@@ -131,7 +130,7 @@ export class VirtualListComponent<T> extends Component<Props<T>, State> {
             // Get the current first element Y Position
             const firstElementTranslateY = this.ELEMENTS_POOL[0].dataset.translateY;
             // The diff between old and new first element position is the value
-            // that we need to subtract from the bottom spacer
+            // that we need to substract from the bottom spacer
             const diff = +firstElementTranslateY - +this.element.style.paddingTop.replace('px', '');
             this.element.style.paddingBottom = `${Math.max(0, +this.element.style.paddingBottom.replace('px', '') - diff)}px`;
             this.element.style.paddingTop = `${firstElementTranslateY}px`;
@@ -161,7 +160,7 @@ export class VirtualListComponent<T> extends Component<Props<T>, State> {
             // Padding top always equals to Y position of first rendered element
             this.element.style.paddingTop = `${firstElementTranslateY}px`;
             // The diff between old and new first element position is the value
-            // that we need to subtract from the bottom spacer
+            // that we need to substract from the bottom spacer
             this.element.style.paddingBottom = `${Math.max(0, +this.element.style.paddingBottom.replace('px', '') - diff)}px`;
             this.TOP_OBSERVER_ELEMENT.style.transform = `translateY(${firstElementTranslateY}px)`;
         }
@@ -176,8 +175,8 @@ export class VirtualListComponent<T> extends Component<Props<T>, State> {
             // Add absolute positioning to each list item
             itemElement.classList.add('absolute-center');
             // Set up virtual list order attribute
-            itemElement.dataset.virtualListOrder = `${this.ELEMENTS_POOL.length + i}`;
-            // Init translateY attribute
+            itemElement.dataset.virtuaListOrder = `${this.ELEMENTS_POOL.length + i}`;
+            // Initialialize translateY attribute
             itemElement.dataset.translateY = `${0}`;
             return element.firstElementChild as HTMLElement;
         });
