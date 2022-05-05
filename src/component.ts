@@ -24,7 +24,7 @@ export abstract class Component<P extends {}, S extends object = {}> {
     }
 
     protected exist(): boolean {
-        return this.element.offsetParent !== null; // Just checker if component is rendered
+        return this.element.offsetParent !== null;
     }
 
     protected getComponentTag(): string {

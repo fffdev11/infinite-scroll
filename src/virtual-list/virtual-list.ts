@@ -24,6 +24,7 @@ export class VirtualListComponent<T> extends Component<Props<T>, State> {
     BOTTOM_OBSERVER_ELEMENT: HTMLElement;
     ELEMENTS_LIMIT = this.props.pageSize * 2; // setup limit for update
     ELEMENTS_POOL: HTMLElement[] = [];
+    DATA: T[] = [];
     state = {
         start: 0,
         end: 0,
@@ -152,6 +153,7 @@ export class VirtualListComponent<T> extends Component<Props<T>, State> {
         const data = await this.props.load(this.state.end, pageSize);
         if (count < this.ELEMENTS_LIMIT) {
             this.state.end += this.props.pageSize;
+            this.DATA = data;
             this.#initElementsPool(data);
         } else if (count === this.ELEMENTS_LIMIT) {
             // Update start and end position
@@ -195,6 +197,12 @@ export class VirtualListComponent<T> extends Component<Props<T>, State> {
             if (element.previousSibling !== null) {
                 this.#handleElementsHeight(element, Number(element.dataset.virtualListOrder));
             }
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth < 800) {
+                    this.#handleElementsHeightResize(element, Number(this.element.dataset.virtualListOrder));
+                }
+            });
         }
     }
 
@@ -214,6 +222,25 @@ export class VirtualListComponent<T> extends Component<Props<T>, State> {
         } else {
             element.style.transform = `translateY(${translateY + 250}px)`;
             element.dataset.translateY = `${translateY + 250}`;
+        }
+    };
+
+    #handleElementsHeightResize = (element: HTMLElement, position: number): any => {
+        // Getting the previous element if exists
+        const siblingElement = element.previousElementSibling as HTMLElement;
+        // Getting the previous element height
+        const siblingHeight = siblingElement.offsetHeight + this.props.itemMargin;
+        // Getting the previous element translateY
+        const sublingTranslateY = +siblingElement.dataset.translateY;
+        // Calculating the position of current element
+        const translateY = siblingHeight + sublingTranslateY + this.props.itemMargin;
+
+        if (position === 10) {
+            element.style.transform = `translateY(${translateY}px)`;
+            element.dataset.translateY = `${translateY}`;
+        } else {
+            element.style.transform = `translateY(${translateY}px)`;
+            element.dataset.translateY = `${translateY}`;
         }
     };
 }
