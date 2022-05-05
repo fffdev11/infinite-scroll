@@ -31,7 +31,6 @@ export class VirtualListComponent<T> extends Component<Props<T>, State> {
 
     constructor(HTMLElement, props: Props<T>) {
         super(HTMLElement, props);
-        console.log('CURRENT DATABASE LIMIT: ', this.ELEMENTS_LIMIT);
     }
 
     init(): void {
@@ -183,29 +182,38 @@ export class VirtualListComponent<T> extends Component<Props<T>, State> {
             itemElement.classList.add('absolute-center');
             // Set up virtual list order attribute
             itemElement.dataset.virtualListOrder = `${this.ELEMENTS_POOL.length + i}`;
-            // Initialialize translateY attribute
+            // Init translateY attribute
             itemElement.dataset.translateY = `${0}`;
+
             return element.firstElementChild as HTMLElement;
         });
+
         this.ELEMENTS_POOL.push(...elements);
         this.element.append(...elements);
+
         for (const element of elements) {
             if (element.previousSibling !== null) {
-                // Getting the previous element if exists
-                const sublingElement = element.previousElementSibling as HTMLElement;
-                // Getting the previous element height
-                const siblingHeight = sublingElement.getBoundingClientRect().height;
-                // Getting the previous element translateY
-                const sublingTranslateY = +sublingElement.dataset.translateY;
-                // Calculating the position of current element
-                const translateY = siblingHeight + sublingTranslateY + this.props.itemMargin;
-                // Moving element
-                element.style.transform = `translateY(${translateY}px)`;
-                // Store the position in data attribute
-                element.dataset.translateY = `${translateY}`;
+                this.#handleElementsHeight(element, Number(element.dataset.virtualListOrder));
             }
         }
     }
 
-    #genList = (items: T[]) => items.map(this.props.templateFn).join('').trim();
+    #handleElementsHeight = (element: HTMLElement, position: number): any => {
+        // Getting the previous element if exists
+        const siblingElement = element.previousElementSibling as HTMLElement;
+        // Getting the previous element height
+        const siblingHeight = siblingElement.offsetHeight + this.props.itemMargin;
+        // Getting the previous element translateY
+        const sublingTranslateY = +siblingElement.dataset.translateY;
+        // Calculating the position of current element
+        const translateY = siblingHeight + sublingTranslateY + this.props.itemMargin;
+
+        if (position === 10) {
+            element.style.transform = `translateY(${translateY}px)`;
+            element.dataset.translateY = `${translateY}`;
+        } else {
+            element.style.transform = `translateY(${translateY + 250}px)`;
+            element.dataset.translateY = `${translateY + 250}`;
+        }
+    };
 }

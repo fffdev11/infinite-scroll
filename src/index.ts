@@ -5,11 +5,9 @@ import { VirtualListComponent } from './virtual-list/virtual-list';
 const templateFn = (item: ArticleItem) => {
     return `
     <section class="feed__item">
-        <img class="feed__item__img" alt="Avatar for logo" src="${item.url}"/>
-        <div class="feed__item__description">
-            <h2 class="h2-header">${item.name}</h2>
-            <p class="p-text">${item.description}</p>
-        </div>
+        <img class="feed__item__img" alt="Avatar for logo" src="${item.url}" />
+        <h2 class="h2-header">${item.name}</h2>
+        <p class="p-text">${item.description}</p>
     </section>`.trim();
 };
 
@@ -29,7 +27,7 @@ const feed = new VirtualListComponent<ArticleItem>(root, {
     templateFn,
     load: (start, limit) => DB.load(start, limit).then((cursor) => cursor.chunk),
     pageSize: 10,
-    itemMargin: 16,
+    itemMargin: 20,
     updateItemFn,
 });
 
