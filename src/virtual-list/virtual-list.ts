@@ -207,6 +207,8 @@ export class VirtualListComponent<T> extends Component<Props<T>, State> {
     }
 
     #handleElementsHeight = (element: HTMLElement, position: number): any => {
+        console.log(position);
+
         // Getting the previous element if exists
         const siblingElement = element.previousElementSibling as HTMLElement;
         // Getting the previous element height
